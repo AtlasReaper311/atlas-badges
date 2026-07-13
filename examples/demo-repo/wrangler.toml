@@ -1,0 +1,10 @@
+name = "demo-worker"
+main = "src/index.js"
+
+[[kv_namespaces]]
+binding = "PULSE_KV"
+id = "REPLACE_ME"
+
+[[services]]
+binding = "GITHUB_PULSE"
+service = "github-pulse"

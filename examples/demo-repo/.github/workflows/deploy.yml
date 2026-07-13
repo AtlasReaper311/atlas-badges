@@ -1,0 +1,6 @@
+name: deploy
+on: { push: { branches: [main] } }
+jobs:
+  deploy:
+    uses: AtlasReaper311/atlas-infra/.github/workflows/deploy-worker.yml@main
+    secrets: inherit

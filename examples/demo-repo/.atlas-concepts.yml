@@ -1,0 +1,5 @@
+# Static scanning can't see that the docs describe an idempotent posting
+# rule in prose only; force it in. The badge block itself never counts as
+# evidence, so this stays honest across re-runs.
+include:
+  - idempotent-ops

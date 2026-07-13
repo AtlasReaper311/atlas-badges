@@ -1,0 +1,35 @@
+# hatchling over setuptools: native src-layout support, no setup.py, and
+# `pip install -e .` behaves identically on Windows and WSL, which matters
+# on a mixed-OS estate.
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "atlas-badges"
+version = "0.1.0"
+description = "Tag a repo's README with evidence-backed engineering concept badges"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Atlas Reaper" }]
+dependencies = ["pyyaml>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.4"]
+
+[project.scripts]
+atlas-badges = "atlas_badges.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/atlas_badges"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
