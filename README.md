@@ -1,4 +1,20 @@
+<div align="center">
+  <img src="https://raw.githubusercontent.com/AtlasReaper311/AtlasReaper311/main/atlas-icon-dark-256.png" width="88" alt="Atlas Systems"/>
+</div>
+
 # atlas-badges
+
+```
+┌─────────────────────────────────────────────┐
+│  ATLAS SYSTEMS // atlas-badges              │
+│  evidence-backed repository badges          │
+└─────────────────────────────────────────────┘
+```
+
+[![CI](https://github.com/AtlasReaper311/atlas-badges/actions/workflows/ci.yml/badge.svg)](https://github.com/AtlasReaper311/atlas-badges/actions)
+![Python](https://img.shields.io/badge/python-3.12-f5a623?style=flat-square&labelColor=0a0a0f)
+![Evidence](https://img.shields.io/badge/output-evidence%20scan-4ade80?style=flat-square&labelColor=0a0a0f)
+![Cost](https://img.shields.io/badge/cost-%C2%A30-aaa9a0?style=flat-square&labelColor=0a0a0f)
 
 Scans a local repo clone for greppable evidence of specific engineering
 concepts and writes a shields.io badge block into its `README.md`. A senior
@@ -113,6 +129,12 @@ atlas-badges apply examples/demo-repo --dry-run
 The demo repo is a synthetic Worker-shaped fixture with an override file,
 so you can see the whole workflow without pointing at a real clone.
 
+## How it fits into Atlas Systems
+
+`atlas-badges` turns repository claims into inspectable evidence. It scans source for narrowly defined engineering signals and gives the wider Atlas Systems repository surface a consistent way to show what a project actually demonstrates.
+
+The transferable principle is simple: portfolio labels should follow evidence, not precede it.
+
 ---
 
-Part of [atlas-systems.uk](https://atlas-systems.uk)
+Part of [atlas-systems.uk](https://atlas-systems.uk) · MIT License
