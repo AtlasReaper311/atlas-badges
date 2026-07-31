@@ -4,30 +4,76 @@
 
 This pull request is the bounded validation surface approved by Atlas for the Phase III GitHub provider-guard canary.
 
-Its only current purpose is to trigger the repository-native pull-request workflows and record the exact GitHub Actions status-check context before any ruleset is created.
+It records the repository-native pull-request check context, the approved provider write, and the first normal pull-request path through the resulting default-branch ruleset.
 
 Authority: `AtlasReaper311/atlas-infra#103`.
 
 ## Change boundary
 
-This document changes no package code, scanner behaviour, concept vocabulary, workflow, dependency, release, tag, deployment, repository setting, branch protection, ruleset, secret, variable, or auto-merge state.
+This document changes no package code, scanner behaviour, concept vocabulary, workflow, dependency, release, tag, deployment, secret, variable, or auto-merge state.
 
-No provider guard is authorised by this commit. Creating or editing the proposed `Atlas default branch PR guard` ruleset remains a separate explicit approval gate.
+The provider write described below was separately approved and completed through the GitHub repository rulesets API. This pull request does not perform or repeat that write.
 
-## Evidence to capture
+## Pre-write pull-request evidence
 
-Before proposing the provider write, record:
+The initial documentation-only commit was `d6fa7e6c73584b6247bcdda1a1ce463af3b66580`, based on `main` commit `2ddf0f410e4967871ecf1bf8de0f005909bce0b7`.
 
-- the exact pull-request head commit;
-- every pull-request-triggered workflow run for that commit;
-- the exact native CI workflow and job names reported by GitHub;
-- the final conclusion of each check;
-- confirmation that no deployment or publication workflow ran;
-- confirmation that repository auto-merge remains disabled;
-- the pre-change ruleset and classic-protection result from the owner-authenticated audit.
+GitHub reported these pull-request-triggered workflows:
 
-The canary pull request must remain open until the captured status context is reviewed. It must not be merged as evidence that the future ruleset works, because no ruleset exists yet.
+- `CI`, run `30634704231`, job `test`: success;
+- `CodeQL`, run `30634704169`, job `Analyze Python`: success;
+- `OpenSSF Scorecard`, run `30634704172`, job `Supply-chain score`: success;
+- `Dependabot review policy`, run `30634704179`: skipped as expected for a non-Dependabot pull request.
 
-## Later canary sequence
+The repository-native required status context is `test`, produced by workflow `CI`. The `test` job runs pytest and Ruff. No deployment or publication workflow ran. Repository auto-merge was disabled.
 
-After a separately approved ruleset write, this pull request may receive one further documentation-only commit to prove pending, failing, and passing required-check behaviour. Direct-default-branch rejection, deletion protection, non-fast-forward protection, Dependabot compatibility, rollback, and the post-change scoreboard remain separate evidence steps.
+## Approved provider write
+
+At `2026-07-31T14:52:44.173+01:00`, GitHub created repository ruleset `20126389`:
+
+- name: `Atlas default branch PR guard`;
+- enforcement: `active`;
+- target: `branch`;
+- ref condition: `~DEFAULT_BRANCH`;
+- bypass actors: none;
+- current-user bypass: `never`;
+- deletion protection: enabled;
+- non-fast-forward protection: enabled;
+- pull request required: enabled;
+- required approving reviews: `0`;
+- allowed merge methods: merge, squash, and rebase;
+- required status context: `test`;
+- required status integration ID: `15368`;
+- strict required-status policy: disabled;
+- enforce required status checks on branch creation: enabled.
+
+The ruleset creation response and subsequent ruleset read-back were identical. The active-rules endpoint independently returned exactly four active rules from ruleset `20126389`: `deletion`, `non_fast_forward`, `pull_request`, and `required_status_checks`.
+
+Repository read-back confirmed `allow_auto_merge: false` after the provider write.
+
+## Evidence file digests
+
+The owner-authenticated evidence files have these SHA-256 digests:
+
+- `repository-after.json`: `e074e92e7979e697dbd8d6f87dbd9338b430c09e44880b1a3a3b3d45e59aab40`;
+- `ruleset-created.json`: `0184166c46f2dac05d105276f3e650e25cbf63d0847d734d9d4aaa47a78d744a`;
+- `ruleset-readback.json`: `0184166c46f2dac05d105276f3e650e25cbf63d0847d734d9d4aaa47a78d744a`;
+- `active-rules-after.json`: `3f1a73725bc54f89196cdb3d43b64c3f5556024d5cbe39e96e283d588e2e78d1`.
+
+## Protected pull-request path
+
+This evidence commit is intentionally made after ruleset activation. Its pull-request checks must complete successfully before merge. A successful merge through this pull request proves the expected owner workflow remains available while direct default-branch writes are prohibited by policy.
+
+This canary does not claim proof of intentional rejection paths that have not yet been exercised.
+
+## Deferred evidence
+
+The following remain separate, explicit approval gates because they intentionally attempt prohibited or wider provider operations:
+
+- direct push rejection on the default branch;
+- non-fast-forward or force-push rejection;
+- default-branch deletion rejection;
+- Dependabot compatibility under the ruleset;
+- ruleset rollback;
+- wider repository rollout;
+- stamped post-change conformance scoreboard and final Phase III closeout.
