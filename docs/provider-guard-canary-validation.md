@@ -62,7 +62,7 @@ The owner-authenticated evidence files have these SHA-256 digests:
 
 ## Protected pull-request path
 
-This evidence commit is intentionally made after ruleset activation. Its pull-request checks must complete successfully before merge. A successful merge through this pull request proves the expected owner workflow remains available while direct default-branch writes are prohibited by policy.
+The post-ruleset evidence commits are intentionally made after ruleset activation. Their pull-request checks must complete successfully before merge. A successful merge through this pull request proves the expected owner workflow remains available under the active guard and that the required status check gates the merge path.
 
 This canary does not claim proof of intentional rejection paths that have not yet been exercised.
 
